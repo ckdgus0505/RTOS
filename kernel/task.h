@@ -8,12 +8,12 @@
 #define USR_TASK_STACK_SIZE 0x100000
 #define MAX_TASK_NUM (TASK_STACK_SIZE / USR_TASK_STACK_SIZE)
 
-typedef struct KernelTaskContent_t
+typedef struct KernelTaskContext_t
 {
 	uint32_t spsr;
 	uint32_t r0_r12[13];
 	uint32_t pc;
-} KernelTaskContent_t;
+} KernelTaskContext_t;
 
 typedef struct KernelTcb_t
 {
@@ -25,5 +25,5 @@ typedef void(*KernelTaskFunc_t) (void);
 
 void Kernel_task_init(void);
 uint32_t Kernel_task_create(KernelTaskFunc_t startFunc);
-
+static KernelTcb_t* Scheduler_round_robin_algorithm(void);
 #endif /* KERNEL_TASK_H_ */

@@ -1,8 +1,9 @@
 #include "stdint.h"
-#include "HalUart.h"
-#include "stdio.h"
 #include "stdbool.h"
+#include "HalUart.h"
+#include "HalInterrupt.h"
 #include "HalTimer.h"
+#include "stdio.h"
 #include "stdlib.h"
 #include "task.h"
 
@@ -30,9 +31,7 @@ void main(void)
 	Timer_test();
 	
 	Kernel_init();
-	User_task0();
-	User_task1();
-	User_task2();
+	while(true);
 }
 
 static void Hw_init(void)
