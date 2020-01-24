@@ -9,9 +9,11 @@ CC = arm-none-eabi-gcc
 AS = arm-none-eabi-as
 LD = arm-none-eabi-gcc
 OC = arm-none-eabi-objcopy
+OD = arm-none-eabi-objdump
 
 LINKER_SCRIPT = ./RTOS.ld
 MAP_FILE = build/rtos.map
+SYM_FILE = build/rtos.sym
 
 ASM_SRCS = $(wildcard boot/*.S)
 ASM_OBJS = $(patsubst boot/%.S, build/%.os, $(ASM_SRCS))
@@ -56,8 +58,12 @@ debug: $(rtos)
 gdb:
 	arm-none-eabi-gdb
 
+kill:
+	kill -9 `ps aux | grep 'qemu' | awk 'NR==1{print $$2}'`
+
 $(rtos): $(ASM_OBJS) $(C_OBJS) $(LINKER_SCRIPT)
 	$(LD) -n -T $(LINKER_SCRIPT) -o $(rtos) $(ASM_OBJS) $(C_OBJS) -Wl,-Map=$(MAP_FILE) $(LDFLAGS)
+	$(OD) -t $(rtos) > $(SYM_FILE)
 	$(OC) -O binary $(rtos) $(rtos_bin)
 
 build/%.os: %.S

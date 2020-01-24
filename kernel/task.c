@@ -2,6 +2,7 @@
 #include "stdbool.h"
 
 #include "ARMv7AR.h"
+#include "armcpu.h"
 #include "task.h"
 
 static KernelTcb_t sTask_list[MAX_TASK_NUM];
