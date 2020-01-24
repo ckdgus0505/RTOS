@@ -24,6 +24,12 @@ typedef struct KernelTcb_t
 typedef void(*KernelTaskFunc_t) (void);
 
 void Kernel_task_init(void);
+void Kernel_task_start(void);
 uint32_t Kernel_task_create(KernelTaskFunc_t startFunc);
 static KernelTcb_t* Scheduler_round_robin_algorithm(void);
+void Kernel_task_scheduler(void);
+void Kernel_task_context_switching(void);
+static void Save_context(void);
+static void Restore_context(void);
+
 #endif /* KERNEL_TASK_H_ */

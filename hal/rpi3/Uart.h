@@ -204,6 +204,54 @@ typedef union UARTDMACR_t
     } bits;
 } UARTDMACR_t;
 
+typedef union UARTITCR_t
+{
+    uint32_t all;
+    struct {
+        uint32_t ITCR0:1;  // 0
+        uint32_t ITCR1:1;  // 1
+        uint32_t reserved:30;
+    } bits;
+} UARTITCR_t;
+
+typedef union UARTITIP_t
+{
+    uint32_t all;
+    struct {
+        uint32_t ITIP0:1;  // 0
+        uint32_t reserved1:2; // 1:2
+        uint32_t ITIP3:1;  // 3
+        uint32_t reserved2:28;
+    } bits;
+} UARTITIP_t;
+
+typedef union UARTITOP_t
+{
+    uint32_t all;
+    struct {
+        uint32_t ITIP0:1;  // 0
+        uint32_t reserved1:2; // 1:2
+        uint32_t ITIP3:1;  // 3
+        uint32_t reserved2:2; // 4:5
+        uint32_t ITIP6:1;  // 6
+        uint32_t ITOP7:1;  // 7
+        uint32_t ITOP8:1;  // 8
+        uint32_t ITOP9:1;  // 9
+        uint32_t ITOP10:1; // 10
+        uint32_t ITOP11:1; // 11
+        uint32_t reserved3:10;
+    } bits;
+} UARTITOP_t;
+
+typedef union UARTTDR_t
+{
+    uint32_t all;
+    struct {
+        uint32_t TDR10_0:11; // 0:10
+        uint32_t reserved:21;
+    } bits;
+} UARTTDR_t;
+
 typedef struct PL011_t
 {
     UARTDR_t    uartdr;         //0x000
@@ -222,10 +270,14 @@ typedef struct PL011_t
     UARTMIS_t   uartmis;        //0x040
     UARTICR_t   uarticr;        //0x044
     UARTDMACR_t uartdmacr;      //0x048
+    UARTITCR_t  uartitcr;       //0x04C
+    UARTITIP_t  uartitip;       //0x050
+    UARTITOP_t  uartitop;       //0x054
+    UARTTDR_t   uarttdr;        //0x058
 } PL011_t;
 
-#define UART_BASE_ADDRESS0       0x10009000
-#define UART_INTERRUPT0          44
+#define UART_BASE_ADDRESS0       0x7E20100
+#define UART_INTERRUPT0          57
 
 #endif /* HAL_RVPB_UART_H_ */
 
