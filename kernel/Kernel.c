@@ -3,6 +3,7 @@
 #include "memio.h"
 
 #include "Kernel.h"
+#include "synch.h"
 
 void Kernel_start(void)
 {
@@ -63,6 +64,43 @@ uint32_t Kernel_recv_msg(KernelMsgQ_t Qname, void* out_data, uint32_t count)
 	return count;
 }
 
+void Kernel_lock_sem(void)
+{
+	while(false == Kernel_sem_pend())
+	{
+		Kernel_yield();
+	}
+}
+
+void Kernel_unlock_sem(void)
+{
+	Kernel_sem_post();
+}
+
+void Kernel_lock_mutex(void)
+{
+	while(true)
+	{
+		uint32_t current_task_id = Kernel_task_get_current_task_id();
+		if (false == Kernel_mutex_lock(current_task_id))
+		{
+			Kernel_yield();
+		}
+		else
+		{
+			break;
+		}
+	}
+}
+
+void Kernel_unlock_mutex(void)
+{
+	uint32_t current_task_id = Kernel_task_get_current_task_id();
+	if (false == Kernel_mutex_unlock(current_task_id))
+	{
+		Kernel_yield();
+	}
+}
 
 KernelEventFlag_t Kernel_wait_events(uint32_t waiting_list)
 {

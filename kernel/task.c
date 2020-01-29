@@ -49,6 +49,11 @@ uint32_t Kernel_task_create(KernelTaskFunc_t startFunc)
 	return (sAllocated_tcb_index - 1);
 } 
 
+uint32_t Kernel_task_get_current_task_id(void)
+{
+	return sCurrent_tcb_index;
+}
+
 static KernelTcb_t* Scheduler_round_robin_algorithm(void)
 {
 	sCurrent_tcb_index++;
